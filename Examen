@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>P001</title>
+</head>
+
+<body>
+	<?php
+
+		$enviar = "";
+		$resultado = "";
+				
+		$nombre = htmlspecialchars($_GET['nombre']); 
+		$enviar = htmlspecialchars($_GET['enviar']); 
+		
+		$var = "datos.ini";
+		$base = parse_ini_file($var);		
+		$php = new PDO($base["baseDeDatos"],$base["usuario"],$base["password"]);
+		
+		if($enviar == "print")
+		{
+			// http://localhost/P001/default.php?enviar=print
+			$con = $php->prepare("SELECT 1 from Examen;");
+			$con->bindParam(':tex',$nombre);
+			$con->execute();
+			?><h1><?php echo "$result" ?></h1><?php
+		}
+		if($enviar == "connection")
+		{
+			$con = $php->prepare("SELECT 2 from Examen;");
+			$con->execute();
+			$registros = $con->fetchAll(PDO::FETCH_NUM);	
+			$resultado = $registros[0][1];			
+			?><h1><?php echo "$result" ?></h1><?php
+		}
+		if($enviar == "firewall")
+		{
+			$con = $php->prepare("SELECT 3 from Examen;");
+			$con->execute();
+			$registros = $con->fetchAll(PDO::FETCH_NUM);	
+			$resultado = $registros[0][1];			
+			?><h1><?php echo "$result" ?></h1><?php
+		}
+	?>
+</body>
+
+</html>
+
+
+
+
+
